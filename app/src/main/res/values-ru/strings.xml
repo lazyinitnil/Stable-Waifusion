@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stable Waifusion Alpha</string>
+    <string name="home">Главная</string>
+    <string name="text_to_image">Текст в картинку</string>
+    <string name="image_to_image">Картинка в картинку</string>
+    <string name="gallery">Галерея</string>
+    <string name="prompt_placeholder">Опишите то что вы хотите видеть: объект, цвета, освещение и т.д.</string>
+    <string name="negative_prompt_placeholder">Опишите то что вы НЕ хотите видеть: лишние конечности, монстры и т.д.</string>
+    <string name="write_a_prompt">Напиши подсказку</string>
+    <string name="generate">Генерировать</string>
+    <string name="generation_modes">Режимы генерации</string>
+    <string name="resolution">Разрешение</string>
+    <string name="quality">Качество</string>
+    <string name="style">Стиль</string>
+    <string name="sub_style">Дополнительный стиль</string>
+    <string name="resolution_and_image_formats">Разрешение и форматы</string>
+    <string name="improve_image">Улучшить изображение</string>
+</resources>
