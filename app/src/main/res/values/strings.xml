@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Stable Waifusion Alpha</string>
+    <string name="home">Home</string>
+    <string name="generation_modes">Generation Modes</string>
+    <string name="text_to_image">Text-to-Image</string>
+    <string name="image_to_image">Image-to-Image</string>
+    <string name="gallery">Gallery</string>
+    <string name="write_a_prompt">Write a prompt</string>
+    <string name="generate">Generate</string>
+    <string name="resolution_and_image_formats">Resolution and Formats</string>
+    <string name="resolution">Resolution</string>
+    <string name="prompt_placeholder">Describe what you want to see: object, colors, lightning, etc.</string>
+    <string name="negative_prompt_placeholder">Describe what you DON\'T want to see: extra digits, monsters, etc.</string>
+    <string name="quality">Quality</string>
+    <string name="style">Style</string>
+    <string name="sub_style">Sub-Style</string>
+    <string name="improve_image">Improve Image</string>
+</resources>
