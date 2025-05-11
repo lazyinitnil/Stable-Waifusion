@@ -1,0 +1,8 @@
+package com.example.stablewaifusionalpha.core.constants
+
+import com.example.stablewaifusionalpha.BuildConfig
+
+const val BASIC_REALISM_MODEL_PATH = BuildConfig.BASIC_REALISM_MODEL_PATH
+const val MEDIUM_REALISM_MODEL_PATH = BuildConfig.MEDIUM_REALISM_MODEL_PATH
+const val MEDIUM_REALISM_2_MODEL_PATH = BuildConfig.MEDIUM_REALISM_2_MODEL_PATH
+const val MEDIUM_ANIME_MODEL_PATH = BuildConfig.MEDIUM_ANIME_MODEL_PATH

@@ -3,38 +3,83 @@ package com.example.stablewaifusionalpha.presentation.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-
-
-private val DarkColorScheme = darkColorScheme(
-    primary = Color.Black,
-    onPrimary = Color.White,
-    secondary = Color.Gray,
-    onSecondary = Color.White,
-    background = Color.Black,
-    onBackground = Color.White,
-    surface = Color.Black,
-    onSurface = Color.White
-)
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color.White,
-    onPrimary = Color.Black,
-    secondary = Color.Gray,
-    onSecondary = Color.Black,
-    background = Color.White,
-    onBackground = Color.Black,
-    surface = Color.White,
-    onSurface = Color.Black
+    primary = LightPrimary,
+    onPrimary = LightOnPrimary,
+    primaryContainer = LightPrimaryContainer,
+    onPrimaryContainer = LightOnPrimaryContainer,
+    secondary = LightSecondary,
+    onSecondary = LightOnSecondary,
+    tertiary = LightTertiary,
+    onTertiary = LightOnTertiary,
+    tertiaryContainer = LightTertiaryContainer,
+    onTertiaryContainer = LightOnTertiaryContainer,
+    background = LightBackground,
+    onBackground = LightOnBackground,
+    surface = LightSurface,
+    onSurface = LightOnSurface,
+    outline = LightOutline,
+    error = LightError,
+    onError = LightOnError
 )
 
+private val DarkColorScheme = darkColorScheme(
+    primary = DarkPrimary,
+    onPrimary = DarkOnPrimary,
+    primaryContainer = DarkPrimaryContainer,
+    onPrimaryContainer = DarkOnPrimaryContainer,
+    secondary = DarkSecondary,
+    onSecondary = DarkOnSecondary,
+    tertiary = DarkTertiary,
+    onTertiary = DarkOnTertiary,
+    tertiaryContainer = DarkTertiaryContainer,
+    onTertiaryContainer = DarkOnTertiaryContainer,
+    background = DarkBackground,
+    onBackground = DarkOnBackground,
+    surface = DarkSurface,
+    onSurface = DarkOnSurface,
+    outline = DarkOutline,
+    error = DarkError,
+    onError = DarkOnError,
+)
+
+private val LightExtraColorScheme = ExtraColor(
+    success = LightSuccess,
+    warning = LightWarning,
+    disabled = LightDisabled,
+    shimmer = LightShimmer,
+    gradientStart = LightGradientStart,
+    gradientEnd = LightGradientEnd,
+    onGradient = LightOnGradient,
+    backgroundVariant = LightBackgroundVariant,
+    info = LightInfo,
+    onInfo = LightOnInfo,
+    neutral = LightNeutral
+)
+
+private val DarkExtraColorScheme = ExtraColor(
+    success = DarkSuccess,
+    warning = DarkWarning,
+    disabled = DarkDisabled,
+    shimmer = DarkShimmer,
+    gradientStart = DarkGradientStart,
+    gradientEnd = DarkGradientEnd,
+    onGradient = DarkOnGradient,
+    backgroundVariant = DarkBackgroundVariant,
+    info = DarkInfo,
+    onInfo = DarkOnInfo,
+    neutral = DarkNeutral
+)
 
 /*private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -60,22 +105,22 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun StableWaifusionAlphaTheme(
  //   dynamicColor: Boolean = true,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = darkColorScheme(
-        primary = Color.Black,
-        onPrimary = Color.White,
-        secondary = Color.Gray,
-        onSecondary = Color.White,
-        background = Color.Black,
-        onBackground = Color.Red,
-        surface = Color.Black,
-        onSurface = Color.White
-    )
+    val colors = if (darkTheme) DarkColorScheme else LightColorScheme
+    val extraColors = if (darkTheme) DarkExtraColorScheme else LightExtraColorScheme
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalExtraColors provides extraColors) {
+        MaterialTheme(
+            colorScheme = colors,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+    }
 }
+
+val ColorScheme.backgroundVariant: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) DarkBackgroundVariant else LightBackgroundVariant

@@ -6,16 +6,17 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     alias(libs.plugins.hilt)
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.1.20"
 }
 
 android {
     namespace = "com.example.stablewaifusionalpha"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.stablewaifusionalpha"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -31,16 +32,16 @@ android {
         }
 
         val baseUrl: String = localProperties.getProperty("BASE_URL") ?: ""
-        val basicRealismModelPath: String = localProperties.getProperty("BASIC_REALISM_MODEL_PATH") ?: ""
-        val mediumRealismModelPath: String = localProperties.getProperty("MEDIUM_REALISM_MODEL_PATH") ?: ""
-        val mediumRealism2ModelPath: String = localProperties.getProperty("MEDIUM_REALISM_2_MODEL_PATH") ?: ""
-        val mediumAnimeModelPath: String = localProperties.getProperty("MEDIUM_ANIME_MODEL_PATH") ?: ""
+        val basicRealismModelPath: String = localProperties.getProperty("BASIC_REALISM_MODEL_PATH")?.replace("\\", "\\\\") ?: ""
+        val mediumRealismModelPath: String = localProperties.getProperty("MEDIUM_REALISM_MODEL_PATH")?.replace("\\", "\\\\") ?: ""
+        val mediumRealism2ModelPath: String = localProperties.getProperty("MEDIUM_REALISM_2_MODEL_PATH")?.replace("\\", "\\\\") ?: ""
+        val mediumAnimeModelPath: String = localProperties.getProperty("MEDIUM_ANIME_MODEL_PATH")?.replace("\\", "\\\\") ?: ""
 
-        buildConfigField(type = "String", name = "BASE_URL", value = "\"baseUrl\"")
-        buildConfigField(type = "String", name = "BASIC_REALISM_MODEL_PATH", value = "\"basicRealismModelPath\"")
-        buildConfigField(type = "String", name = "MEDIUM_REALISM_MODEL_PATH", value = "\"mediumRealismModelPath\"")
-        buildConfigField(type = "String", name = "MEDIUM_REALISM_2_MODEL_PATH", value = "\"mediumRealism2ModelPath\"")
-        buildConfigField(type = "String", name = "MEDIUM_ANIME_MODEL_PATH", value = "\"mediumAnimeModelPath\"")
+        buildConfigField(type = "String", name = "BASE_URL", value = "\"$baseUrl\"")
+        buildConfigField(type = "String", name = "BASIC_REALISM_MODEL_PATH", value = "\"$basicRealismModelPath\"")
+        buildConfigField(type = "String", name = "MEDIUM_REALISM_MODEL_PATH", value = "\"$mediumRealismModelPath\"")
+        buildConfigField(type = "String", name = "MEDIUM_REALISM_2_MODEL_PATH", value = "\"$mediumRealism2ModelPath\"")
+        buildConfigField(type = "String", name = "MEDIUM_ANIME_MODEL_PATH", value = "\"$mediumAnimeModelPath\"")
 
     }
 
@@ -80,27 +81,39 @@ kapt {
 
 
 dependencies {
+    // Network
     implementation(libs.retrofit)
     implementation (libs.converter.gson)
     implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    // Jetpack
     implementation (libs.coil.kt.coil.compose)
     implementation (libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.runtime.livedata)
+    implementation (libs.androidx.navigation.compose)
     implementation (libs.androidx.material)
+    implementation (libs.material3)
+    implementation (libs.androidx.datastore.preferences)
+    implementation(libs.androidx.foundation.v160)
+    implementation (libs.androidx.animation)
 
     implementation (libs.ui.tooling)
-    implementation (libs.androidx.navigation.compose)
-    implementation (libs.material3)
     implementation (libs.androidx.material.icons.extended)
 
+
+    // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
+    // Coroutines
     implementation (libs.jetbrains.kotlinx.coroutines.core)
     implementation (libs.kotlinx.coroutines.android)
 
     implementation (libs.lottie.compose)
+
+    implementation (libs.kotlinx.serialization.json)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

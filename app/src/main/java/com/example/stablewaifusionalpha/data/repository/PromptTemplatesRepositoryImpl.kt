@@ -62,5 +62,4 @@ class PromptTemplatesRepositoryImpl @Inject constructor(
         return promptTemplates
     }
 
-
 }

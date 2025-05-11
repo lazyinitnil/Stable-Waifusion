@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Stable Waifusion Alpha</string>
-    <string name="home">Главная</string>
+    <string name="onboarding_title_1">Добро пожаловать в Stable Waifusion</string>
+    <string name="onboarding_desc_1">Создавай изображения, видео, музыку и 3D с помощью ИИ</string>
+    <string name="onboarding_title_2">Безграничные возможности</string>
+    <string name="onboarding_desc_2">От артов до AR — твоя фантазия не ограничена</string>
+    <string name="onboarding_title_3">Делись и вдохновляй</string>
+    <string name="onboarding_desc_3">Галерея, сообщество, челленджи и многое другоe</string>
+    <string name="button_next">Далее</string>
+    <string name="button_start">Начать</string>
+    <string name="hub">Главная</string>
     <string name="text_to_image">Текст в картинку</string>
     <string name="image_to_image">Картинка в картинку</string>
     <string name="gallery">Галерея</string>
@@ -9,11 +17,17 @@
     <string name="negative_prompt_placeholder">Опишите то что вы НЕ хотите видеть: лишние конечности, монстры и т.д.</string>
     <string name="write_a_prompt">Напиши подсказку</string>
     <string name="generate">Генерировать</string>
-    <string name="generation_modes">Режимы генерации</string>
     <string name="resolution">Разрешение</string>
     <string name="quality">Качество</string>
     <string name="style">Стиль</string>
     <string name="sub_style">Дополнительный стиль</string>
     <string name="resolution_and_image_formats">Разрешение и форматы</string>
     <string name="improve_image">Улучшить изображение</string>
+    <string name="best_generations">Лучшие генерации</string>
+    <string name="challenge_of_the_week">Челлендж недели</string>
+    <string name="recommended_styles">Рекомендованные стили</string>
+    <string name="image_count">Количество изображений</string>
+    <string name="styles">Стили</string>
+    <string name="prompt_templates">Шаблоны подсказок</string>
+    <string name="prompt">Подсказка</string>
 </resources>

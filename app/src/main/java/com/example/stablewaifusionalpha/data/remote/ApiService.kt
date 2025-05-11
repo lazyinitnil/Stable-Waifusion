@@ -1,20 +1,34 @@
 package com.example.stablewaifusionalpha.data.remote
 
-import com.example.stablewaifusionalpha.core.SAMPLERS
-import com.example.stablewaifusionalpha.core.TXT2IMG
-import com.example.stablewaifusionalpha.data.remote.dto.ImagesDto
-import com.example.stablewaifusionalpha.data.remote.dto.Text2ImageDto
-import com.example.stablewaifusionalpha.data.remote.dto.UpscalerDto
+import com.example.stablewaifusionalpha.core.constants.PROMPT
+import com.example.stablewaifusionalpha.data.remote.dto.HistoryResponseDto
+import com.example.stablewaifusionalpha.data.remote.dto.PromptBody
+import com.example.stablewaifusionalpha.data.remote.dto.PromptResponseDto
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
-    @POST(TXT2IMG)
-    suspend fun text2Image(@Body request: Text2ImageDto): ImagesDto
+    @POST(PROMPT)
+    suspend fun sendPrompt(
+        @Body body: PromptBody
+    ): PromptResponseDto
 
-    @GET(SAMPLERS)
-    suspend fun getUpscalers(): List<UpscalerDto>
+    @GET("history/{promptId}")
+    suspend fun getHistory(
+        @Path("promptId") promptId: String
+    ): Map<String, HistoryResponseDto>
+
+    @GET("view")
+    suspend fun getImage(
+        @Query("filename") filename: String,
+        @Query("subfolder") subfolder: String,
+        @Query("type") type: String = "output"
+    ): Response<ResponseBody>
 
 }
