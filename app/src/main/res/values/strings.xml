@@ -1,18 +1,34 @@
 <resources>
-    <string name="app_name">Stable Waifusion Alpha</string>
-    <string name="home">Home</string>
-    <string name="generation_modes">Generation Modes</string>
+    <string name="app_name">Stable Waifusion</string>
+
+    <string name="onboarding_title_1">Welcome to Stable Waifusion</string>
+    <string name="onboarding_desc_1">Create images, videos, music and 3D with AI</string>
+    <string name="onboarding_title_2">Unlimited Possibilities</string>
+    <string name="onboarding_desc_2">From art to AR - your imagination is unlimited</string>
+    <string name="onboarding_title_3">Share and inspire</string>
+    <string name="onboarding_desc_3">Gallery, community, challenges and more</string>
+    <string name="button_next">Next</string>
+    <string name="button_start">Start</string>
+
+    <string name="hub">Hub</string>
+    <string name="best_generations">Best Generations</string>
+    <string name="challenge_of_the_week">Challenge of the Week</string>
+    <string name="recommended_styles">Recommended Styles</string>
     <string name="text_to_image">Text-to-Image</string>
     <string name="image_to_image">Image-to-Image</string>
     <string name="gallery">Gallery</string>
+    <string name="prompt">Prompt</string>
     <string name="write_a_prompt">Write a prompt</string>
+    <string name="prompt_templates">Prompt Templates</string>
     <string name="generate">Generate</string>
+    <string name="image_count">Image Count</string>
     <string name="resolution_and_image_formats">Resolution and Formats</string>
     <string name="resolution">Resolution</string>
     <string name="prompt_placeholder">Describe what you want to see: object, colors, lightning, etc.</string>
     <string name="negative_prompt_placeholder">Describe what you DON\'T want to see: extra digits, monsters, etc.</string>
     <string name="quality">Quality</string>
     <string name="style">Style</string>
+    <string name="styles">Styles</string>
     <string name="sub_style">Sub-Style</string>
     <string name="improve_image">Improve Image</string>
 </resources>

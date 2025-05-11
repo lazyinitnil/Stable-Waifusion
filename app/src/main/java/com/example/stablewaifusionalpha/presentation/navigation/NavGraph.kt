@@ -1,122 +1,176 @@
 package com.example.stablewaifusionalpha.presentation.navigation
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.FabPosition
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Photo
+import androidx.compose.material.icons.filled.TextFields
+import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.stablewaifusionalpha.presentation.GalleryScreen
-import com.example.stablewaifusionalpha.presentation.viewmodel.ImageGenViewModel
 import com.example.stablewaifusionalpha.R
-import com.example.stablewaifusionalpha.presentation.ui.screens.AnimatedImageWithBlur
-import com.example.stablewaifusionalpha.presentation.ui.screens.EditPromptScreen
-import com.example.stablewaifusionalpha.presentation.ui.screens.GeneratedImagesScreen
-import com.example.stablewaifusionalpha.presentation.ui.screens.HomeScreen
-import com.example.stablewaifusionalpha.presentation.ui.screens.ImageToImageScreen
-import com.example.stablewaifusionalpha.presentation.ui.screens.TextToImageScreen
+import com.example.stablewaifusionalpha.presentation.ui.layout.ExpandableFab
+import com.example.stablewaifusionalpha.presentation.ui.screens.SplashScreen
+import com.example.stablewaifusionalpha.presentation.ui.screens.GenerationResultScreen
+import com.example.stablewaifusionalpha.presentation.ui.screens.hub.HubScreen
+import com.example.stablewaifusionalpha.presentation.ui.screens.generation.GenerationScreen
 import com.example.stablewaifusionalpha.presentation.ui.screens.WelcomeScreen
-import com.example.stablewaifusionalpha.presentation.viewmodel.Text2ImageViewModel
+import com.example.stablewaifusionalpha.presentation.ui.screens.onboarding.OnBoardingScreen
+import com.example.stablewaifusionalpha.presentation.viewmodel.GenerationViewModel
+import com.example.stablewaifusionalpha.presentation.viewmodel.OnboardingViewModel
 
 @Composable
 fun NavGraph(
     navHostController: NavHostController,
     context: Context,
-    viewModel: ImageGenViewModel,
-    text2ImageViewModel: Text2ImageViewModel
+    generationViewModel: GenerationViewModel,
+    onboardingViewModel: OnboardingViewModel,
+    startDestination: String
 ) {
-    NavHost(navController = navHostController, startDestination = ROUTES.SPLASH_ROUTE) {
+    val currentEntry by navHostController.currentBackStackEntryAsState()
+    val currentRoute = currentEntry?.destination?.route
 
-        composable(ROUTES.SPLASH_ROUTE) {
-            AnimatedImageWithBlur(
-                imageRes = R.drawable.onboarding_ai_2,
-                appName = R.string.app_name,
-                onNavigateToMain = {
-                    navHostController.navigate(ROUTES.WELCOME_ROUTE) {
-                        popUpTo(ROUTES.SPLASH_ROUTE) { inclusive = true }
-                    }
-                }
-            )
+    var isFabExpanded by remember { mutableStateOf(false) }
+
+    val window = (context as Activity).window
+    val windowInsetsController = WindowInsetsControllerCompat(window, window.decorView)
+
+    LaunchedEffect(currentRoute) {
+        val isWelcome = currentRoute == Screen.Welcome.route
+        val isSplash = currentRoute == Screen.Splash.route
+
+        window.statusBarColor = when {
+            isWelcome || isSplash -> Color.Transparent.toArgb()
+            else -> Color.Black.toArgb()
         }
 
-        composable(ROUTES.WELCOME_ROUTE) {
-            WelcomeScreen(
-                onContinueClicked = {
-                    navHostController.navigate(ROUTES.HOME_ROUTE) {
-                        popUpTo(ROUTES.WELCOME_ROUTE) { inclusive = true }
-                    }
-                }
-            )
-        }
+        WindowCompat.setDecorFitsSystemWindows(window, !(isWelcome || isSplash))
+        windowInsetsController.isAppearanceLightStatusBars = !(isWelcome || isSplash)
+    }
 
-        composable(ROUTES.HOME_ROUTE) {
-            HomeScreen(
-                context,
-                modifier = Modifier.fillMaxSize() ,
-                onText2ImageCardClick = {
-                    navHostController.navigate(ROUTES.TEXT_TO_IMAGE_ROUTE)
-                },
-                onImage2ImageCardClick = {
-                    navHostController.navigate(ROUTES.IMAGE_TO_IMAGE_ROUTE)
-                }
-            )
-        }
+    val showBottomBar = currentRoute in listOf(Screen.Hub.route, Screen.Gallery.route)
+    val showFab = showBottomBar
 
-        composable(ROUTES.TEXT_TO_IMAGE_ROUTE){
-            TextToImageScreen(
-                modifier = Modifier.fillMaxSize(),
-                onGenerateClick = {
-                    navHostController.navigate(ROUTES.GENERATED_IMAGES_ROUTE)
-                }, viewModel = text2ImageViewModel
-            )
-        }
-
-        composable(ROUTES.IMAGE_TO_IMAGE_ROUTE){
-            ImageToImageScreen(
-                context,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-
-
-        composable(ROUTES.GENERATED_IMAGES_ROUTE){
-            GeneratedImagesScreen(
-                modifier = Modifier.fillMaxSize(), viewModel = text2ImageViewModel
-            )
-        }
-
-        /*composable(ROUTES.ADVANCED_GEN_ROUTE) {
-            AdvancedGenerationScreen(
-                context,
-                modifier = Modifier.fillMaxSize(),
-                viewModel = viewModel,
-                onEditPrompt = { isNegativePrompt ->
-                    navHostController.navigate(
-                        "${ROUTES.EDIT_PROMPT_ROUTE}/$isNegativePrompt"
+    Scaffold(
+        floatingActionButton = {
+            if (showFab) {
+                ExpandableFab(
+                    isExpanded = isFabExpanded,
+                    onFabClick = { isFabExpanded = !isFabExpanded },
+                    actions = listOf(
+                        Icons.Default.TextFields to {
+                            isFabExpanded = false
+                            navHostController.navigate(Screen.Generation.route)
+                        },
+                        Icons.Default.Photo to {
+                            isFabExpanded = false
+                            /* TODO Image2Image */
+                        },
+                        Icons.Default.Videocam to {
+                            isFabExpanded = false
+                        /* TODO video */
+                        }
                     )
-                }
-            )
-        }*/
-
-        composable(ROUTES.GALLERY_ROUTE){
-            GalleryScreen(
-                context,
-                modifier = Modifier.fillMaxSize()
-            )
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true,
+        bottomBar = {
+            if (showBottomBar) {
+                BottomNavBar(navController = navHostController,showBottomBar)
+            }
         }
+    ) { innerPadding ->
+        NavHost(
+            navController = navHostController,
+            startDestination = startDestination,
+            modifier = Modifier.padding(innerPadding)
+        ) {
 
-       /* composable("${ROUTES.EDIT_PROMPT_ROUTE}/{isNegativePrompt}") { backStackEntry ->
-            val isNegativePrompt = backStackEntry.arguments?.getString("isNegativePrompt").toBoolean()
-            EditPromptScreen(
-                viewModel = viewModel,
-                onSave = {
-                    navHostController.popBackStack()
-                },
-                isNegativePrompt = isNegativePrompt
-            )
-        }*/
+            composable(Screen.Splash.route) {
+                SplashScreen(
+                    imageRes = R.drawable.onboarding_ai_2,
+                    appName = R.string.app_name,
+                    onFinish = {
+                        navHostController.navigate(Screen.Welcome.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
 
+            composable(Screen.Onboarding.route) {
+                OnBoardingScreen(
+                    viewModel = onboardingViewModel,
+                    onFinished = {
+                        onboardingViewModel.completeOnboarding()
+                        navHostController.navigate(Screen.Welcome.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
+            composable(Screen.Welcome.route) {
+                WelcomeScreen(
+                    onContinueClicked = {
+                        navHostController.navigate(Screen.Hub.route) {
+                            popUpTo(Screen.Welcome.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
+            composable(Screen.Hub.route) {
+                HubScreen(
+                    onFeatureClick = {
+                        //TODO
+                    },
+                    onImageClick = {
+                        //TODO
+                    }
+                )
+            }
+
+            composable(Screen.Generation.route) {
+                GenerationScreen(
+                    onGenerateClick = {
+                        navHostController.navigate(Screen.GenerationResult.route)
+                    }, viewModel = generationViewModel
+                )
+            }
+
+            composable(Screen.GenerationResult.route) {
+                GenerationResultScreen(
+                    generationViewModel = generationViewModel
+                )
+            }
+
+            composable(Screen.Gallery.route) {
+                GalleryScreen(
+                    context,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        }
     }
 }

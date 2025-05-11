@@ -1,6 +1,6 @@
 package com.example.stablewaifusionalpha.data.repository
 
-import com.example.stablewaifusionalpha.core.Resource
+import com.example.stablewaifusionalpha.core.common.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
